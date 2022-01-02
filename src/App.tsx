@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Canvas from "./Page/Canvas";
+import { Rnd } from "react-rnd";
 
-function App() {
+const style = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "solid 1px #ddd",
+  background: "#f0f0f0"
+};
+
+const App = () => {
+  const [area, setArea] = useState([1, 2, 3]);
+  const click = () => {
+    setArea(area);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+      <button onClick={click}>생성</button>
+      {area.map((a) => (
+        <Rnd
+          disableDragging={false}
+          style={style}
+          default={{
+            x: 0,
+            y: 0,
+            width: 550,
+            height: 550
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <Canvas width={500} height={500} />
+        </Rnd>
+      ))}
     </div>
   );
-}
+};
 
 export default App;
