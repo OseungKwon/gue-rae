@@ -11,13 +11,8 @@ const style = {
 };
 
 const App = () => {
-  const [area, setArea] = useState([1, 2, 3]);
-  const click = () => {
-    setArea(area);
-  };
   return (
     <div>
-      <button onClick={click}>생성</button>
       <Canvas />
     </div>
   );
