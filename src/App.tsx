@@ -18,20 +18,7 @@ const App = () => {
   return (
     <div>
       <button onClick={click}>생성</button>
-      {area.map((a) => (
-        <Rnd
-          disableDragging={false}
-          style={style}
-          default={{
-            x: 0,
-            y: 0,
-            width: 550,
-            height: 550
-          }}
-        >
-          <Canvas width={500} height={500} />
-        </Rnd>
-      ))}
+      <Canvas />
     </div>
   );
 };

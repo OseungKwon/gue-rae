@@ -7027,7 +7027,7 @@ react-refresh@^0.11.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
-react-rnd@*:
+react-rnd@*, react-rnd@^10.3.5:
   version "10.3.5"
   resolved "https://registry.yarnpkg.com/react-rnd/-/react-rnd-10.3.5.tgz#b66e5e06f1eb6823e72eb4b552081b4b9241b139"
   integrity sha512-LWJP+l5bp76sDPKrKM8pwGJifI6i3B5jHK4ONACczVMbR8ycNGA75ORRqpRuXGyKawUs68s1od05q8cqWgQXgw==
