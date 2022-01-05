@@ -114,7 +114,7 @@ const Sample = () => {
   }, [startPaint, paint, exitPaint]);
 
   return (
-    <div className="App">
+    <div style={{ padding: "5rem" }}>
       <canvas
         onDoubleClick={onDoubleClick}
         ref={canvasRef}

@@ -8,10 +8,9 @@ interface Coordinate {
 }
 
 const DrawElement = (props: ICanvasComponent) => {
-  const { size } = props;
+  const { size, position } = props;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [active, setActive] = useState<boolean>(false);
-
   const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
     undefined
   );
@@ -23,6 +22,18 @@ const DrawElement = (props: ICanvasComponent) => {
     }
 
     const canvas: HTMLCanvasElement = canvasRef.current;
+    if (position) {
+      console.log(
+        event.pageX,
+        position.left,
+        canvas.getBoundingClientRect().left
+      );
+      console.log("cavnas", canvasRef.current.getBoundingClientRect());
+      return {
+        x: event.pageX - canvas.getBoundingClientRect().left,
+        y: event.pageY - canvas.getBoundingClientRect().top
+      };
+    }
     return {
       x: event.pageX - canvas.offsetLeft,
       y: event.pageY - canvas.offsetTop
@@ -95,7 +106,7 @@ const DrawElement = (props: ICanvasComponent) => {
     canvas.getContext("2d")!!.clearRect(0, 0, canvas.width, canvas.height);
   };
   const onDoubleClick = useCallback(() => {
-    console.log("더블클릭함");
+    console.log("더블클릭함", active);
     setActive(!active);
   }, [active]);
 
