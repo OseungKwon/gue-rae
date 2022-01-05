@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { CanvasContext } from "./Canvas";
-
+import { Button } from "antd";
+import "antd/dist/antd.css";
 interface IToolbarProps {
   isEditEnable: boolean;
 }
@@ -12,6 +13,20 @@ export default function Toolbar({ isEditEnable }: IToolbarProps) {
   };
   return (
     <div className="toolbarWrapper">
+      <div style={{ display: "flex" }}>
+        <Button
+          onClick={() => addElement("TEXT")}
+          style={{ width: "6rem", height: "3rem" }}
+        >
+          버튼
+        </Button>
+        <Button
+          onClick={() => addElement("DRAW")}
+          style={{ width: "6rem", height: "3rem" }}
+        >
+          버튼
+        </Button>
+      </div>
       {isEditEnable && (
         <div id="toolbar">
           <select className="ql-size">
@@ -28,10 +43,6 @@ export default function Toolbar({ isEditEnable }: IToolbarProps) {
           <select className="ql-background" />
         </div>
       )}
-      <div>
-        <button onClick={() => addElement("TEXT")}>버튼</button>
-        <button onClick={() => addElement("DRAW")}>버튼</button>
-      </div>
     </div>
   );
 }

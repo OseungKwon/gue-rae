@@ -1,5 +1,4 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
-import "../styles.css";
 import { CanvasContext, ICanvasComponent } from "./Canvas";
 
 interface Coordinate {
@@ -136,7 +135,6 @@ const DrawElement = (props: ICanvasComponent) => {
         ref={canvasRef}
         height={size?.height}
         width={size?.width}
-        className="canvas"
       />
     </div>
   );
