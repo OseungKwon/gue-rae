@@ -2,20 +2,16 @@ import React, { useRef, useState, useCallback, useEffect } from "react";
 import "../styles.css";
 import { CanvasContext, ICanvasComponent } from "./Canvas";
 
-interface CanvasProps {
-  width: number;
-  height: number;
-}
-
 interface Coordinate {
   x: number;
   y: number;
 }
 
-const Sample = () => {
+const DrawElement = (props: ICanvasComponent) => {
+  const { size } = props;
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
   const [active, setActive] = useState<boolean>(false);
+
   const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
     undefined
   );
@@ -90,6 +86,14 @@ const Sample = () => {
     setIsPainting(false);
   }, []);
 
+  const clearCanvas = () => {
+    if (!canvasRef.current) {
+      return;
+    }
+
+    const canvas: HTMLCanvasElement = canvasRef.current;
+    canvas.getContext("2d")!!.clearRect(0, 0, canvas.width, canvas.height);
+  };
   const onDoubleClick = useCallback(() => {
     console.log("더블클릭함");
     setActive(!active);
@@ -100,6 +104,7 @@ const Sample = () => {
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
+
     canvas.addEventListener("mousedown", startPaint);
     canvas.addEventListener("mousemove", paint);
     canvas.addEventListener("mouseup", exitPaint);
@@ -118,12 +123,12 @@ const Sample = () => {
       <canvas
         onDoubleClick={onDoubleClick}
         ref={canvasRef}
-        height={200}
-        width={200}
+        height={size?.height}
+        width={size?.width}
         className="canvas"
       />
     </div>
   );
 };
 
-export default Sample;
+export default DrawElement;

@@ -1,19 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import Canvas from "./Page/Canvas";
-import { Rnd } from "react-rnd";
-
-const style = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  border: "solid 1px #ddd",
-  background: "#f0f0f0"
-};
+import Sample from "./Page/Sample";
+import "./styles.css";
 
 const App = () => {
   return (
     <div>
       <Canvas />
+      <Sample />
     </div>
   );
 };

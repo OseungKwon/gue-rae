@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import parse from "html-react-parser";
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CanvasContext, ICanvasComponent } from "./Canvas";
 import { Buffer } from "buffer";
@@ -20,15 +20,6 @@ const TextElement = (props: ICanvasComponent) => {
   };
   let scale = 1;
   const conatiner = document.querySelector<HTMLElement>(".quill-container");
-  // if (conatiner && dimension) {
-  //   const { offsetHeight, offsetWidth } = conatiner;
-  //   const { width } = conatiner.getBoundingClientRect();
-  //   scale = Math.min(
-  //     parseFloat(dimension?.width ?? 0) / offsetWidth
-  //     // parseFloat(dimension?.height ?? 0) / offsetHeight
-  //   );
-  //   console.log(scale);
-  // }
   console.log(isReadOnly);
 
   return (
@@ -51,7 +42,7 @@ const TextElement = (props: ICanvasComponent) => {
             readOnly={isReadOnly}
             theme="snow"
             className="quill-container"
-            //modules={modules}
+            modules={modules}
             value={content}
             onChange={updateEditorValue}
           />

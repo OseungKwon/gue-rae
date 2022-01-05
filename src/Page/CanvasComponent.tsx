@@ -2,9 +2,11 @@ import React, { ReactElement, useContext, useRef } from "react";
 import { Rnd, ResizeEnable } from "react-rnd";
 import { CanvasContext, ICanvasComponent } from "./Canvas";
 import TextElement from "./TextElement";
+import DrawElement from "./DrawElement";
 
 const componentMap: { [key: string]: React.ComponentType<ICanvasComponent> } = {
-  TEXT: TextElement
+  TEXT: TextElement,
+  DRAW: DrawElement
 };
 
 const getEnableResize = (type: string): ResizeEnable => {
@@ -35,7 +37,9 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
   const onDoubleClick = () => {
     if (!isReadOnly) return;
     setIsReadOnly(false);
-    actions?.setEnableQuillToolbar(true);
+    if (type === "TEXT") actions?.setEnableQuillToolbar(true);
+    else if (type === "DRAW") {
+    }
   };
 
   // element가 foucs됨
@@ -54,7 +58,7 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
     setShowGrids(false);
   };
 
-  //
+  // focus 없애기
   const onBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     const toolbarElement = document.querySelector("#toolbar");
     console.log("onBlur", event, toolbarElement, id, activeSelection);
@@ -138,10 +142,13 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
         : "transparent"
     }`
   };
+
+  // handle span element의 css 클래스 이름을 설정하는데 사용
   const handleClass =
     id && state?.activeSelection.has(id) && state?.activeSelection.size === 1
       ? "showHandles"
       : "";
+  // TextElement, ImageElement 선택
   const getComponent = () => {
     const Component = type && componentMap[type];
     if (!Component || !id) return null;
@@ -165,30 +172,33 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
         size={{ width: size?.width || 0, height: size?.height || 0 }}
         position={{ x: position?.left || 0, y: position?.top || 0 }}
         onDragStart={() => {
+          // 드래그 시작
           isDragged.current = true;
         }}
         onDragStop={(e, d) => {
+          // 드래그 종료
           isDragged.current = false;
           actions?.updateCanvasData({ id, position: { left: d.x, top: d.y } });
         }}
-        resizeHandleWrapperClass={handleClass}
+        resizeHandleWrapperClass={handleClass} // handle span element의 css 클래스 이름을 설정
         onResize={(e, size, ref, delta, position) => {
+          // 리사이징
           actions?.updateCanvasData({
             id,
             size: { width: ref.style.width, height: ref.style.height },
             position: { top: position.y, left: position.x }
           });
         }}
-        onKeyDown={onKeyPressed}
+        onKeyDown={onKeyPressed} // 키보드 클릭
         enableResizing={getEnableResize(type)}
         minWidth={100}
         minHeight={50}
-        disableDragging={!isReadOnly}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onDoubleClick={onDoubleClick}
-        onFocus={onfocus}
-        onBlur={onBlur}
+        disableDragging={!isReadOnly} // 드래그 허용 여부
+        onMouseEnter={onMouseEnter} // 마우스가 element에 들어왔을 때
+        onMouseLeave={onMouseLeave} // 마우스가 element에서 빠져나왔을 때
+        onDoubleClick={onDoubleClick} // 더블클릭 시
+        onFocus={onfocus} // 포커싱됨
+        onBlur={onBlur} // 포커싱에서 나와짐
         tabIndex={0}
       >
         <div className="item-container">{getComponent()}</div>

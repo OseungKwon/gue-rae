@@ -1,0 +1,33 @@
+.App {
+  text-align: center;
+}
+
+.canvas {
+  background: lightgrey;
+}
+.toolbarWrapper {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+#toolbar {
+  width: 90%;
+  margin-bottom: 10px;
+  user-select: none;
+}
+
+.toolbar-item {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  margin-right: 5px;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.toolbar-item:hover {
+  background: rgb(228, 228, 228);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}

@@ -1,6 +1,7 @@
 import React, { ReactElement, useState, useRef, useCallback } from "react";
-import CanvasComponent from "./CanvasComponent";
 
+import CanvasComponent from "./CanvasComponent";
+import Toolbar from "./Toolbar";
 export const CanvasContext = React.createContext<ICanvasContext>({});
 
 export interface ICanvasContext {
@@ -143,9 +144,10 @@ export default function Canvas(): ReactElement {
 
   return (
     <div>
-      <button onClick={() => addElement("TEXT")}>버튼</button>
       <div ref={containerRef}>
         <CanvasContext.Provider value={context}>
+          <Toolbar isEditEnable={enableQuillToolbar} />
+
           <div className="canvas-container">
             {canvasData.map((canvas) => {
               return <CanvasComponent {...canvas} />;
