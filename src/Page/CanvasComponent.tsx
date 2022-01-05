@@ -31,22 +31,34 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
   const isDragged = useRef<boolean>(false);
   const activeSelection = state?.activeSelection;
 
+  // double클릭시, 편집 가능
   const onDoubleClick = () => {
     if (!isReadOnly) return;
     setIsReadOnly(false);
     actions?.setEnableQuillToolbar(true);
   };
 
+  // element가 foucs됨
   const onfocus = (event: React.MouseEvent) => {
     if (id) {
       actions?.setActiveSelection(new Set(state?.activeSelection.add(id)));
     }
   };
+
+  // 마우스가 element 안에 들어왔을 때
   const onMouseEnter = () => {
     setShowGrids(true);
   };
+  //마우스가 element 밖으로 나갔을 때
+  const onMouseLeave = () => {
+    setShowGrids(false);
+  };
+
+  //
   const onBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     const toolbarElement = document.querySelector("#toolbar");
+    console.log("onBlur", event, toolbarElement, id, activeSelection);
+
     if (
       event.currentTarget.contains(event?.relatedTarget as Element) ||
       toolbarElement?.contains(event?.relatedTarget as Element)
@@ -56,16 +68,68 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
     setIsReadOnly(true);
     actions?.setEnableQuillToolbar(false);
     if (id && activeSelection) {
-      activeSelection.delete(id);
+      activeSelection.delete(id); //activeSelection 비우기
       actions?.setActiveSelection(new Set(activeSelection));
     }
   };
-  const onMouseLeave = () => {
-    setShowGrids(false);
-  };
+
+  // 방향키 이외의 키를 눌렀을 때 동작
   const onKeyDown = (event: React.KeyboardEvent) => {
     if (!isReadOnly) event.stopPropagation();
   };
+
+  // 방향키 눌렀을 때, element 위치 이동
+  const onKeyPressed = (e: any) => {
+    if (position) {
+      switch (e.key) {
+        case "ArrowLeft":
+          actions?.updateCanvasData({
+            id,
+            size,
+            position: {
+              left: position.left - 10,
+              top: position.top
+            }
+          });
+          break;
+        case "ArrowUp":
+          actions?.updateCanvasData({
+            id,
+            size,
+            position: {
+              left: position.left,
+              top: position.top - 10
+            }
+          });
+          break;
+
+        case "ArrowRight":
+          actions?.updateCanvasData({
+            id,
+            size,
+            position: {
+              left: position.left + 10,
+              top: position.top
+            }
+          });
+          break;
+        case "ArrowDown":
+          actions?.updateCanvasData({
+            id,
+            size,
+            position: {
+              left: position.left,
+              top: position.top + 10
+            }
+          });
+          break;
+        default:
+          onKeyDown(e);
+          break;
+      }
+    }
+  };
+
   const style: React.CSSProperties = {
     outline: "none",
     border: `2px solid ${
@@ -115,6 +179,7 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
             position: { top: position.y, left: position.x }
           });
         }}
+        onKeyDown={onKeyPressed}
         enableResizing={getEnableResize(type)}
         minWidth={100}
         minHeight={50}
@@ -122,11 +187,9 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onDoubleClick={onDoubleClick}
-        onKeyDown={onKeyDown}
         onFocus={onfocus}
         onBlur={onBlur}
         tabIndex={0}
-        //lockAspectRatio={type === "IMAGE"}
       >
         <div className="item-container">{getComponent()}</div>
       </Rnd>

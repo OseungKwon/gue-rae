@@ -70,22 +70,23 @@ const exampleData = [
 ////////////
 
 export default function Canvas(): ReactElement {
-  const [canvasData, setCanvasData] = useState<ICanvasData[]>(exampleData);
-  const [activeSelection, setActiveSelection] = useState<Set<string>>(
+  const [canvasData, setCanvasData] = useState<ICanvasData[]>(exampleData); // 현재 canvas에 있는 element 전체 데이터
+  const [activeSelection, setActiveSelection] = useState<Set<string>>( // focus된 element
     new Set()
   );
-  const [enableQuillToolbar, setEnableQuillToolbar] = useState<boolean>(false);
+  const [enableQuillToolbar, setEnableQuillToolbar] = useState<boolean>(false); // QuillToolbar
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isSelectAll = useRef<boolean>(false);
+  const containerRef = useRef<HTMLDivElement>(null); // 컨테이너 ref
+  console.log(activeSelection);
 
+  // element 추가
   const addElement = (type: string) => {
     const defaultData = getInitialData(canvasData, type);
     setCanvasData([...canvasData, { ...defaultData, type: type ?? "TEXT" }]);
-    activeSelection.clear();
-    activeSelection.add(defaultData.id);
-    setActiveSelection(new Set(activeSelection));
+    setActiveSelection(new Set(defaultData.id));
   };
+
+  // element 업데이트
   const updateCanvasData = (data: Partial<ICanvasComponent>) => {
     const currentDataIndex =
       canvasData.findIndex((canvas) => canvas.id === data.id) ?? -1;
@@ -93,6 +94,8 @@ export default function Canvas(): ReactElement {
     canvasData.splice(currentDataIndex, 1, updatedData);
     setCanvasData([...(canvasData || [])]);
   };
+
+  // element 삭제
   const deleteElement = useCallback(() => {
     setCanvasData([
       ...canvasData.filter((data) => {
@@ -105,11 +108,7 @@ export default function Canvas(): ReactElement {
     ]);
     setActiveSelection(new Set(activeSelection));
   }, [activeSelection, canvasData]);
-  const selectAllElement = useCallback(() => {
-    isSelectAll.current = true;
-    canvasData.map((data) => activeSelection.add(data.id || ""));
-    setActiveSelection(new Set(activeSelection));
-  }, [activeSelection, canvasData]);
+
   const context: ICanvasContext = {
     actions: {
       setCanvasData,
@@ -124,40 +123,24 @@ export default function Canvas(): ReactElement {
       enableQuillToolbar
     }
   };
+
+  // 키 눌렀을 때 이벤트
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === "Delete") {
         deleteElement();
-      } else if (["a", "A"].includes(event.key) && event.ctrlKey) {
-        event.preventDefault();
-        selectAllElement();
       }
     },
-    [deleteElement, selectAllElement]
+    [deleteElement]
   );
-
-  const outSideClickHandler = () => {
-    isSelectAll.current = false;
-    setActiveSelection(new Set());
-  };
-
-  const handleMouseDown = useCallback((event) => {
-    if (!isSelectAll.current) {
-      return;
-    }
-
-    outSideClickHandler();
-    isSelectAll.current = false;
-  }, []);
 
   React.useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("mousedown", handleMouseDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [handleKeyDown, handleMouseDown]);
+  }, [handleKeyDown]);
+
   return (
     <div>
       <button onClick={() => addElement("TEXT")}>버튼</button>
