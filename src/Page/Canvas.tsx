@@ -84,6 +84,8 @@ export default function Canvas(): ReactElement {
   const addElement = (type: string) => {
     const defaultData = getInitialData(canvasData, type);
     setCanvasData([...canvasData, { ...defaultData, type: type ?? "TEXT" }]);
+    activeSelection.clear();
+    activeSelection.add(defaultData.id);
     setActiveSelection(new Set(defaultData.id));
   };
 

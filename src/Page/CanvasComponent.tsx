@@ -33,6 +33,7 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
   const isDragged = useRef<boolean>(false);
   const activeSelection = state?.activeSelection;
 
+  console.log("isread", isReadOnly);
   // double클릭시, 편집 가능
   const onDoubleClick = () => {
     if (!isReadOnly) return;
