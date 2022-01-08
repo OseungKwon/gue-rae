@@ -14,7 +14,7 @@ const lineWidthPick = [100, 200, 300, 400, 500];
 const DrawElement = (props: ICanvasComponent) => {
   const { size, position, isReadOnly } = props;
 
-  const [styleColor, setStyleColor] = useState("red");
+  const [styleColor, setStyleColor] = useState("black");
   const [styleLineWidth, setStyleLineWidth] = useState(100);
   console.log(styleColor);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -156,28 +156,34 @@ const DrawElement = (props: ICanvasComponent) => {
         width={size?.width}
       />
       {!isReadOnly && (
-        <div className="drawSetting">
-          <div className="drawSettingResult">
-            <div className="color" id={styleColor}></div>
+        <div id="toolbar2">
+          <div className="drawSetting">
+            <div className="drawSettingResult">
+              <div className="color" id={styleColor}></div>
+            </div>
+            <div className="color-picker" onClick={changeColor}>
+              {colorPick.map((pick) => (
+                <div className="color" id={pick} key={pick}></div>
+              ))}
+            </div>
+            <Select
+              className="lineWidth-picker"
+              style={{ width: 120 }}
+              onChange={changeLineWidth}
+              value={styleLineWidth}
+              defaultValue={styleLineWidth}
+            >
+              {lineWidthPick.map((pick) => (
+                <Option
+                  key={pick}
+                  style={{ fontWeight: `${pick}` }}
+                  value={pick}
+                >
+                  Sample({pick / 100})
+                </Option>
+              ))}
+            </Select>
           </div>
-          <div className="color-picker" onClick={changeColor}>
-            {colorPick.map((pick) => (
-              <div className="color" id={pick} key={pick}></div>
-            ))}
-          </div>
-          <Select
-            className="lineWidth-picker"
-            style={{ width: 120 }}
-            onChange={changeLineWidth}
-            value={styleLineWidth}
-            defaultValue={styleLineWidth}
-          >
-            {lineWidthPick.map((pick) => (
-              <Option key={pick} style={{ fontWeight: `${pick}` }} value={pick}>
-                Sample({pick / 100})
-              </Option>
-            ))}
-          </Select>
         </div>
       )}
     </div>

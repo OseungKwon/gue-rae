@@ -17,9 +17,27 @@
   user-select: none;
 }
 
+#toolbar2 {
+  position: absolute;
+  bottom: -20;
+  left: 0;
+  padding: 0.5rem;
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.drawSetting {
+  display: flex;
+  flex-direction: row;
+}
+.drawSettingResult {
+  padding-right: 2rem;
+}
+
 .color-picker {
   display: flex;
   flex-direction: row;
+  padding-right: 2rem;
 }
 .color {
   margin: 0.1rem;

@@ -40,6 +40,7 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
     setIsReadOnly(false);
     if (type === "TEXT") actions?.setEnableQuillToolbar(true);
     else if (type === "DRAW") {
+      actions?.setEnableDrawToolbar(true);
     }
   };
 

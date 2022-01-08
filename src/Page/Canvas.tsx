@@ -9,11 +9,13 @@ export interface ICanvasContext {
     canvasData: ICanvasData[];
     activeSelection: Set<string>;
     enableQuillToolbar: boolean;
+    enableDrawToolbar: boolean;
   };
   actions?: {
     setCanvasData: React.Dispatch<React.SetStateAction<ICanvasData[]>>;
     updateCanvasData: (data: Partial<ICanvasComponent>) => void;
     setEnableQuillToolbar: (state: boolean) => void;
+    setEnableDrawToolbar: (state: boolean) => void;
     setActiveSelection: React.Dispatch<React.SetStateAction<Set<string>>>;
     addElement: (type: string) => void;
   };
@@ -76,6 +78,7 @@ export default function Canvas(): ReactElement {
     new Set()
   );
   const [enableQuillToolbar, setEnableQuillToolbar] = useState<boolean>(false); // QuillToolbar
+  const [enableDrawToolbar, setEnableDrawToolbar] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null); // 컨테이너 ref
   console.log(activeSelection);
@@ -86,7 +89,7 @@ export default function Canvas(): ReactElement {
     setCanvasData([...canvasData, { ...defaultData, type: type ?? "TEXT" }]);
     activeSelection.clear();
     activeSelection.add(defaultData.id);
-    setActiveSelection(new Set(defaultData.id));
+    setActiveSelection(new Set(activeSelection));
   };
 
   // element 업데이트
@@ -118,12 +121,14 @@ export default function Canvas(): ReactElement {
       setActiveSelection,
       updateCanvasData,
       addElement,
-      setEnableQuillToolbar
+      setEnableQuillToolbar,
+      setEnableDrawToolbar
     },
     state: {
       canvasData,
       activeSelection,
-      enableQuillToolbar
+      enableQuillToolbar,
+      enableDrawToolbar
     }
   };
 
@@ -148,7 +153,10 @@ export default function Canvas(): ReactElement {
     <div>
       <div ref={containerRef}>
         <CanvasContext.Provider value={context}>
-          <Toolbar isEditEnable={enableQuillToolbar} />
+          <Toolbar
+            isTextEditEnable={enableQuillToolbar}
+            isDrawEditEnable={enableDrawToolbar}
+          />
 
           <div className="canvas-container">
             {canvasData.map((canvas) => {

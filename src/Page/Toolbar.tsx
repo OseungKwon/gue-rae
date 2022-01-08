@@ -3,10 +3,14 @@ import { CanvasContext } from "./Canvas";
 import { Button } from "antd";
 import "antd/dist/antd.css";
 interface IToolbarProps {
-  isEditEnable: boolean;
+  isTextEditEnable: boolean;
+  isDrawEditEnable: boolean;
 }
 
-export default function Toolbar({ isEditEnable }: IToolbarProps) {
+export default function Toolbar({
+  isTextEditEnable,
+  isDrawEditEnable
+}: IToolbarProps) {
   const { actions } = useContext(CanvasContext);
   const addElement = (type: string) => {
     actions?.addElement(type);
@@ -27,7 +31,7 @@ export default function Toolbar({ isEditEnable }: IToolbarProps) {
           그림 그리기
         </Button>
       </div>
-      {isEditEnable && (
+      {isTextEditEnable && (
         <div id="toolbar">
           <select className="ql-size">
             <option value="small"></option>
@@ -43,6 +47,7 @@ export default function Toolbar({ isEditEnable }: IToolbarProps) {
           <select className="ql-background" />
         </div>
       )}
+      {isDrawEditEnable && <div id="toolbar">hi</div>}
     </div>
   );
 }
