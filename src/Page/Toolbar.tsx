@@ -47,7 +47,9 @@ export default function Toolbar({
           <select className="ql-background" />
         </div>
       )}
-      {isDrawEditEnable && <div id="toolbar">hi</div>}
+      {
+        //isDrawEditEnable && <div id="toolbar">hi</div>}
+      }
     </div>
   );
 }

@@ -18,8 +18,6 @@ const TextElement = (props: ICanvasComponent) => {
   const modules = {
     toolbar: "#toolbar"
   };
-  let scale = 1;
-  const conatiner = document.querySelector<HTMLElement>(".quill-container");
   console.log(isReadOnly);
 
   return (

@@ -60,14 +60,7 @@ const exampleData = [
     position: { left: 126, top: 100 },
     size: { width: "174px", height: "50px" },
     content:
-      '<p><strong style="font-family: &quot;Trebuchet MS&quot;; font-size: 20px;">Visual BI Solutions</strong></p>'
-  },
-  {
-    type: "TEXT",
-    id: "TEXT__1616155106456__2",
-    position: { left: 130, top: 100 },
-    size: { width: "100px", height: "50px" },
-    content: "<p>Invoice</p>"
+      '<p><strong style="font-family: &quot;Trebuchet MS&quot;; font-size: 20px;">Sample Text</strong></p>'
   }
 ];
 ////////////
