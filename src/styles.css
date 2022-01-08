@@ -16,3 +16,29 @@
   margin-bottom: 10px;
   user-select: none;
 }
+
+.color-picker {
+  display: flex;
+  flex-direction: row;
+}
+.color {
+  margin: 0.1rem;
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+
+  border-radius: 50%;
+}
+
+#black {
+  background-color: black;
+}
+#blue {
+  background-color: blue;
+}
+#red {
+  background-color: red;
+}
+#green {
+  background-color: green;
+}

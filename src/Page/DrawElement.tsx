@@ -1,13 +1,22 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
 import { CanvasContext, ICanvasComponent } from "./Canvas";
+import { Select } from "antd";
+const { Option } = Select;
 
 interface Coordinate {
   x: number;
   y: number;
 }
 
+const colorPick = ["black", "blue", "red", "green"];
+const lineWidthPick = [100, 200, 300, 400, 500];
+
 const DrawElement = (props: ICanvasComponent) => {
-  const { size, position } = props;
+  const { size, position, isReadOnly } = props;
+
+  const [styleColor, setStyleColor] = useState("red");
+  const [styleLineWidth, setStyleLineWidth] = useState(100);
+  console.log(styleColor);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [active, setActive] = useState<boolean>(false);
   const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
@@ -50,9 +59,9 @@ const DrawElement = (props: ICanvasComponent) => {
     const context = canvas.getContext("2d");
 
     if (context) {
-      context.strokeStyle = "red";
+      context.strokeStyle = styleColor;
       context.lineJoin = "round";
-      context.lineWidth = 5;
+      context.lineWidth = styleLineWidth / 100;
 
       context.beginPath();
       context.moveTo(originalMousePosition.x, originalMousePosition.y);
@@ -96,18 +105,28 @@ const DrawElement = (props: ICanvasComponent) => {
     setIsPainting(false);
   }, []);
 
-  const clearCanvas = () => {
-    if (!canvasRef.current) {
-      return;
-    }
+  // const clearCanvas = () => {
+  //   if (!canvasRef.current) {
+  //     return;
+  //   }
 
-    const canvas: HTMLCanvasElement = canvasRef.current;
-    canvas.getContext("2d")!!.clearRect(0, 0, canvas.width, canvas.height);
-  };
+  //   const canvas: HTMLCanvasElement = canvasRef.current;
+  //   canvas.getContext("2d")!!.clearRect(0, 0, canvas.width, canvas.height);
+  // };
   const onDoubleClick = useCallback(() => {
     console.log("더블클릭함", active);
     setActive(!active);
   }, [active]);
+
+  const changeColor = (e: any) => {
+    let target = e.target;
+    if (target.className !== "color") return;
+    setStyleColor(target.id);
+  };
+
+  const changeLineWidth = (value: number) => {
+    setStyleLineWidth(value);
+  };
 
   useEffect(() => {
     if (!canvasRef.current) {
@@ -136,6 +155,31 @@ const DrawElement = (props: ICanvasComponent) => {
         height={size?.height}
         width={size?.width}
       />
+      {!isReadOnly && (
+        <div className="drawSetting">
+          <div className="drawSettingResult">
+            <div className="color" id={styleColor}></div>
+          </div>
+          <div className="color-picker" onClick={changeColor}>
+            {colorPick.map((pick) => (
+              <div className="color" id={pick} key={pick}></div>
+            ))}
+          </div>
+          <Select
+            className="lineWidth-picker"
+            style={{ width: 120 }}
+            onChange={changeLineWidth}
+            value={styleLineWidth}
+            defaultValue={styleLineWidth}
+          >
+            {lineWidthPick.map((pick) => (
+              <Option key={pick} style={{ fontWeight: `${pick}` }} value={pick}>
+                Sample({pick / 100})
+              </Option>
+            ))}
+          </Select>
+        </div>
+      )}
     </div>
   );
 };

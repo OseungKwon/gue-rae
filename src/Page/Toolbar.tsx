@@ -18,13 +18,13 @@ export default function Toolbar({ isEditEnable }: IToolbarProps) {
           onClick={() => addElement("TEXT")}
           style={{ width: "6rem", height: "3rem" }}
         >
-          버튼
+          text 추가
         </Button>
         <Button
           onClick={() => addElement("DRAW")}
           style={{ width: "6rem", height: "3rem" }}
         >
-          버튼
+          그림 그리기
         </Button>
       </div>
       {isEditEnable && (

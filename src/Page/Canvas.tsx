@@ -55,7 +55,7 @@ const exampleData = [
   {
     type: "TEXT",
     id: "TEXT__1616155060789__1",
-    position: { left: 126, top: 16.080001831054688 },
+    position: { left: 126, top: 100 },
     size: { width: "174px", height: "50px" },
     content:
       '<p><strong style="font-family: &quot;Trebuchet MS&quot;; font-size: 20px;">Visual BI Solutions</strong></p>'
@@ -63,7 +63,7 @@ const exampleData = [
   {
     type: "TEXT",
     id: "TEXT__1616155106456__2",
-    position: { left: 130, top: 43 },
+    position: { left: 130, top: 100 },
     size: { width: "100px", height: "50px" },
     content: "<p>Invoice</p>"
   }
