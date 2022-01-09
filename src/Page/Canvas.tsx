@@ -7,7 +7,7 @@ export const CanvasContext = React.createContext<ICanvasContext>({});
 export interface ICanvasContext {
   state?: {
     canvasData: ICanvasData[];
-    activeSelection: Set<string>;
+    activeSelection: ICanvasData;
     enableQuillToolbar: boolean;
     enableDrawToolbar: boolean;
   };
@@ -16,7 +16,7 @@ export interface ICanvasContext {
     updateCanvasData: (data: Partial<ICanvasComponent>) => void;
     setEnableQuillToolbar: (state: boolean) => void;
     setEnableDrawToolbar: (state: boolean) => void;
-    setActiveSelection: React.Dispatch<React.SetStateAction<Set<string>>>;
+    setActiveSelection: React.Dispatch<React.SetStateAction<ICanvasData>>;
     addElement: (type: string) => void;
   };
 }
@@ -67,9 +67,9 @@ const exampleData = [
 
 export default function Canvas(): ReactElement {
   const [canvasData, setCanvasData] = useState<ICanvasData[]>(exampleData); // 현재 canvas에 있는 element 전체 데이터
-  const [activeSelection, setActiveSelection] = useState<Set<string>>( // focus된 element
-    new Set()
-  );
+  const defaultData1 = getInitialData(canvasData, "TEXT");
+  const [activeSelection, setActiveSelection] =
+    useState<ICanvasData>(defaultData1); // focus된 element
   const [enableQuillToolbar, setEnableQuillToolbar] = useState<boolean>(false); // QuillToolbar
   const [enableDrawToolbar, setEnableDrawToolbar] = useState<boolean>(false);
 
@@ -80,9 +80,8 @@ export default function Canvas(): ReactElement {
   const addElement = (type: string) => {
     const defaultData = getInitialData(canvasData, type);
     setCanvasData([...canvasData, { ...defaultData, type: type ?? "TEXT" }]);
-    activeSelection.clear();
-    activeSelection.add(defaultData.id);
-    setActiveSelection(new Set(activeSelection));
+
+    setActiveSelection(defaultData);
   };
 
   // element 업데이트
@@ -96,16 +95,16 @@ export default function Canvas(): ReactElement {
 
   // element 삭제
   const deleteElement = useCallback(() => {
-    setCanvasData([
-      ...canvasData.filter((data) => {
-        if (data.id && activeSelection.has(data.id)) {
-          activeSelection.delete(data.id);
-          return false;
-        }
-        return true;
-      })
-    ]);
-    setActiveSelection(new Set(activeSelection));
+    // setCanvasData([
+    //   ...canvasData.filter((data) => {
+    //     if (data.id && activeSelection.has(data.id)) {
+    //       activeSelection.delete(data.id);
+    //       return false;
+    //     }
+    //     return true;
+    //   })
+    // ]);
+    // setActiveSelection(new Set(activeSelection));
   }, [activeSelection, canvasData]);
 
   const context: ICanvasContext = {

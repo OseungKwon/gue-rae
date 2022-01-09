@@ -47,7 +47,7 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
   // element가 foucs됨
   const onfocus = (event: React.MouseEvent) => {
     if (id) {
-      actions?.setActiveSelection(new Set(state?.activeSelection.add(id)));
+      // actions?.setActiveSelection(new Set(state?.activeSelection.add(id)));
     }
   };
 
@@ -74,8 +74,8 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
     setIsReadOnly(true);
     actions?.setEnableQuillToolbar(false);
     if (id && activeSelection) {
-      activeSelection.delete(id); //activeSelection 비우기
-      actions?.setActiveSelection(new Set(activeSelection));
+      // activeSelection.delete(id); //activeSelection 비우기
+      // actions?.setActiveSelection(new Set(activeSelection));
     }
   };
 
@@ -137,19 +137,11 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
   };
 
   const style: React.CSSProperties = {
-    outline: "none",
-    border: `2px solid ${
-      (id && state?.activeSelection.has(id)) || showGrids || isDragged.current
-        ? "#21DEE5"
-        : "transparent"
-    }`
+    outline: "none"
   };
 
   // handle span element의 css 클래스 이름을 설정하는데 사용
-  const handleClass =
-    id && state?.activeSelection.has(id) && state?.activeSelection.size === 1
-      ? "showHandles"
-      : "";
+  const handleClass = "showHandles";
   // TextElement, ImageElement 선택
   const getComponent = () => {
     const Component = type && componentMap[type];
