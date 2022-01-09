@@ -74,8 +74,7 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
     setIsReadOnly(true);
     actions?.setEnableQuillToolbar(false);
     if (id && activeSelection) {
-      // activeSelection.delete(id); //activeSelection 비우기
-      // actions?.setActiveSelection(new Set(activeSelection));
+      actions?.setActiveSelection("");
     }
   };
 
@@ -137,7 +136,12 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
   };
 
   const style: React.CSSProperties = {
-    outline: "none"
+    outline: "none",
+    border: `2px solid ${
+      (id && state?.activeSelection === id) || showGrids || isDragged.current
+        ? "#21DEE5"
+        : "transparent"
+    }`
   };
 
   // handle span element의 css 클래스 이름을 설정하는데 사용

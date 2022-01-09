@@ -96,16 +96,15 @@ export default function Canvas(): ReactElement {
 
   // element 삭제
   const deleteElement = useCallback(() => {
-    // setCanvasData([
-    //   ...canvasData.filter((data) => {
-    //     if (data.id && activeSelection.has(data.id)) {
-    //       activeSelection.delete(data.id);
-    //       return false;
-    //     }
-    //     return true;
-    //   })
-    // ]);
-    // setActiveSelection(new Set(activeSelection));
+    setCanvasData([
+      ...canvasData.filter((data) => {
+        if (data.id && activeSelection === data.id) {
+          setActiveSelection("");
+          return false;
+        }
+        return true;
+      })
+    ]);
   }, [activeSelection, canvasData]);
 
   const context: ICanvasContext = {
