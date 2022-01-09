@@ -47,7 +47,7 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
   // element가 foucs됨
   const onfocus = (event: React.MouseEvent) => {
     if (id) {
-      // actions?.setActiveSelection(new Set(state?.activeSelection.add(id)));
+      //actions?.setActiveSelection(activeSelection.add(id)));
     }
   };
 
