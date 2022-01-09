@@ -47,7 +47,7 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
   // element가 foucs됨
   const onfocus = (event: React.MouseEvent) => {
     if (id) {
-      //actions?.setActiveSelection(activeSelection.add(id)));
+      actions?.setActiveSelection(id);
     }
   };
 
@@ -141,7 +141,7 @@ export default function CanvasComponent(props: ICanvasComponent): ReactElement {
   };
 
   // handle span element의 css 클래스 이름을 설정하는데 사용
-  const handleClass = "showHandles";
+  const handleClass = id && state?.activeSelection === id ? "showHandles" : "";
   // TextElement, ImageElement 선택
   const getComponent = () => {
     const Component = type && componentMap[type];

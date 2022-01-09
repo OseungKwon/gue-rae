@@ -7,7 +7,7 @@ export const CanvasContext = React.createContext<ICanvasContext>({});
 export interface ICanvasContext {
   state?: {
     canvasData: ICanvasData[];
-    activeSelection: ICanvasData;
+    activeSelection: string;
     enableQuillToolbar: boolean;
     enableDrawToolbar: boolean;
   };
@@ -16,7 +16,7 @@ export interface ICanvasContext {
     updateCanvasData: (data: Partial<ICanvasComponent>) => void;
     setEnableQuillToolbar: (state: boolean) => void;
     setEnableDrawToolbar: (state: boolean) => void;
-    setActiveSelection: React.Dispatch<React.SetStateAction<ICanvasData>>;
+    setActiveSelection: React.Dispatch<React.SetStateAction<string>>;
     addElement: (type: string) => void;
   };
 }
@@ -68,8 +68,9 @@ const exampleData = [
 export default function Canvas(): ReactElement {
   const [canvasData, setCanvasData] = useState<ICanvasData[]>(exampleData); // 현재 canvas에 있는 element 전체 데이터
   const defaultData1 = getInitialData(canvasData, "TEXT");
-  const [activeSelection, setActiveSelection] =
-    useState<ICanvasData>(defaultData1); // focus된 element
+  const [activeSelection, setActiveSelection] = useState<string>(
+    defaultData1.id
+  ); // focus된 element
   const [enableQuillToolbar, setEnableQuillToolbar] = useState<boolean>(false); // QuillToolbar
   const [enableDrawToolbar, setEnableDrawToolbar] = useState<boolean>(false);
 
@@ -81,7 +82,7 @@ export default function Canvas(): ReactElement {
     const defaultData = getInitialData(canvasData, type);
     setCanvasData([...canvasData, { ...defaultData, type: type ?? "TEXT" }]);
 
-    setActiveSelection(defaultData);
+    setActiveSelection(defaultData.id);
   };
 
   // element 업데이트
