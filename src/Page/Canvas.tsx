@@ -25,7 +25,7 @@ export interface ICanvasData {
   component?: string;
   id?: string;
   position?: { top: number; left: number };
-  dimension?: { width: string; height: string };
+  size?: { width: string; height: string };
   content?: string;
   type: string;
 }
